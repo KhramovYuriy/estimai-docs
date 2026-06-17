@@ -119,18 +119,13 @@ A: No. EstimAI is built on Atlassian Forge and supports **Jira Cloud only**.
 
 ## Pricing
 
-| Plan | Limit | Price |
-|------|-------|-------|
-| Free | 15 AI estimations/month | Free |
-| Paid | Unlimited | From $3/user/month |
-
-Paid pricing follows Atlassian's standard user-tier model (10, 25, 50, 100, 250+ users).
+EstimAI is currently **free** — 15 AI estimations per month, with all features included (vision, Confluence context, historical calibration, Figma). A paid unlimited plan is planned for a future release.
 
 ---
 
 ## Contact & support
 
-**Email:** support@estimai.app  
+**Email:** khramovyuriy@gmail.com  
 **Response time:** Within 24 hours on business days
 
 For bug reports, please include:

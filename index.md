@@ -6,4 +6,4 @@ AI-powered Story Point estimation for Jira Cloud — estimate in seconds from is
 - [Privacy Policy](privacy)
 - [Support & Documentation](support)
 
-**Contact:** support@estimai.app
+**Contact:** khramovyuriy@gmail.com

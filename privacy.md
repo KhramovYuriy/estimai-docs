@@ -108,5 +108,5 @@ We will update this policy as needed. The "Last updated" date at the top reflect
 Questions about this Privacy Policy?
 
 **EstimAI Support**
-Email: support@estimai.app
-Support: https://app.notion.com/p/EstimAI-Support-37564142446080c9b896e4a4b218d259
+Email: khramovyuriy@gmail.com
+Support: https://khramovyuriy.github.io/estimai-docs/support
