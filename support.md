@@ -119,7 +119,7 @@ A: No. EstimAI is built on Atlassian Forge and supports **Jira Cloud only**.
 
 ## Pricing
 
-EstimAI is currently **free** — 15 AI estimations per month, with all features included (vision, Confluence context, historical calibration, Figma). A paid unlimited plan is planned for a future release.
+EstimAI is **free** with **unlimited** AI estimations — all features included (vision, Confluence context, historical calibration, Figma). It is bring-your-own-key: you connect your own OpenAI or Anthropic key and pay only your provider's usage; EstimAI itself is free.
 
 ---
 

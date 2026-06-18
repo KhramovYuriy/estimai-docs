@@ -1,6 +1,6 @@
 # Privacy Policy — EstimAI
 
-**Last updated:** 10 June 2026
+**Last updated:** 17 June 2026
 
 ## 1. Overview
 
@@ -29,6 +29,7 @@ We access only the issues you explicitly load into EstimAI. We do not scan, inde
 EstimAI stores the following data **per Jira installation** using Atlassian Forge Storage (per-tenant, isolated):
 - **Estimation feedback:** When you save a Planning Poker result, we store: issue key, AI estimate, team estimate, delta, and timestamp. This is used to improve calibration over time.
 - **Settings:** Your configured AI provider, calibration window (days), and SP scale.
+- **Field preference:** Your chosen Story Points field, saved per project against your Atlassian `accountId` (an opaque Atlassian identifier — not your name or email) so the picker remembers your selection.
 
 We do **not** store issue content, screenshots, transcripts, or AI-generated estimates after the session ends.
 
