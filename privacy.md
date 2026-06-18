@@ -1,6 +1,6 @@
 # Privacy Policy — EstimAI
 
-**Last updated:** 17 June 2026
+**Last updated:** 18 June 2026
 
 ## 1. Overview
 
@@ -57,6 +57,15 @@ EstimAI sends data to your chosen AI provider when you run an estimation:
 | Figma (optional) | https://www.figma.com/privacy | Your Figma token to fetch screenshots |
 
 **You control which provider is used.** You provide your own API keys — EstimAI does not proxy or store AI responses.
+
+### AI processing details
+
+- **Bring-your-own-key (BYOK):** estimation requests run under **your own** OpenAI/Anthropic account (and Figma, if used), using the API key you enter in Settings. EstimAI operates no AI servers of its own.
+- **No model training:** data sent to OpenAI and Anthropic **via their APIs is not used to train their models** (per the providers' API data-usage policies). EstimAI does not train, fine-tune, or build any model on your data.
+- **Sub-processors:** OpenAI, Anthropic, and Figma (United States), engaged only at the moment you run an estimate or fetch a Figma frame. Each provider's privacy policy is linked in the table above.
+- **International transfer (EEA/UK):** running an estimate may transfer the content you choose to your provider's US-based endpoints. The transfer is made under **your own account** with that provider, whose terms include GDPR transfer mechanisms (Standard Contractual Clauses / EU-US Data Privacy Framework). EstimAI stores none of this data.
+- **Your responsibility:** you choose which issue content, screenshots, and notes to submit for an estimate. Please avoid sending data you do not want processed by your chosen AI provider.
+- **Data processing terms:** for the content you submit, EstimAI acts as a data processor on your behalf. A DPA based on the Bonterms Standard Data Processing Agreement is available on request (see Contact).
 
 ---
 
