@@ -118,5 +118,5 @@ We will update this policy as needed. The "Last updated" date at the top reflect
 Questions about this Privacy Policy?
 
 **EstimAI Support**
-Email: khramovyuriy@gmail.com
+Email: support@estimai.org
 Support: https://khramovyuriy.github.io/estimai-docs/support

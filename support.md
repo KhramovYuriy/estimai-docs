@@ -125,7 +125,7 @@ EstimAI is **free** with **unlimited** AI estimations — all features included 
 
 ## Contact & support
 
-**Email:** khramovyuriy@gmail.com  
+**Email:** support@estimai.org  
 **Response time:** Within 24 hours on business days
 
 For bug reports, please include:
