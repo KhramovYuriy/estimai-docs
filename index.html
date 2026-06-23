@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EstimAI — AI Story Point Estimation inside Jira</title>
+<meta name="description" content="Explainable AI Story Point estimates inside Jira — from the issue, design screenshots, Figma, Confluence specs and your team's delivery history. Bring your own OpenAI or Anthropic key. Free and unlimited." />
+<link rel="icon" type="image/png" href="assets/logo-icon-512.png" />
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="EstimAI — AI Story Point Estimation inside Jira" />
+<meta property="og:description" content="Explainable AI Story Point estimates inside Jira, calibrated to your team's history. Bring your own AI key. Free and unlimited." />
+<meta property="og:url" content="https://estimai.org/" />
+<meta property="og:image" content="https://estimai.org/assets/banner-1120x548.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<style>
+  :root{
+    --p700:#5B28D6; --p500:#7E4FF5; --p300:#a585f9;
+    --grad:linear-gradient(135deg,#5B28D6 0%,#7E4FF5 100%);
+    --ink:#15132b; --muted:#5d5a73; --line:#ece9f6;
+    --bg:#ffffff; --soft:#f7f6fc; --soft2:#f1eefb;
+    --radius:18px; --shadow:0 18px 48px -18px rgba(50,28,120,.35);
+    --shadow-sm:0 6px 20px -8px rgba(50,28,120,.22);
+    --maxw:1120px;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p500)}
+  h1,h2,h3{line-height:1.15;letter-spacing:-.02em;margin:0}
+  h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800}
+  .lead{color:var(--muted);font-size:1.12rem}
+  .section{padding:84px 0}
+  .center{text-align:center}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:1rem;padding:14px 26px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+  .btn-primary{background:#fff;color:var(--p700);box-shadow:0 10px 30px -8px rgba(0,0,0,.3)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
+  .btn-ghost:hover{background:rgba(255,255,255,.2)}
+  .btn-dark{background:var(--grad);color:#fff;box-shadow:var(--shadow-sm)}
+  .btn-dark:hover{transform:translateY(-2px)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.18rem}
+  .brand img{width:34px;height:34px;border-radius:9px}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{color:var(--muted);font-weight:600;font-size:.95rem}
+  .nav-links a:hover{color:var(--ink)}
+  .nav .btn{padding:10px 20px;font-size:.92rem}
+
+  /* Hero */
+  .hero{position:relative;overflow:hidden;background:var(--grad);color:#fff}
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+  .hero::before{width:520px;height:520px;top:-160px;right:-120px}
+  .hero::after{width:360px;height:360px;bottom:-180px;left:-120px;background:rgba(255,255,255,.06)}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;padding:86px 0 96px}
+  .hero h1{font-size:clamp(2.2rem,4.6vw,3.5rem);font-weight:800;letter-spacing:-.03em}
+  .hero p.sub{font-size:1.18rem;color:rgba(255,255,255,.92);margin:20px 0 14px;max-width:36ch}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:.82rem;font-weight:600;margin-bottom:22px}
+  .pill .dot{width:8px;height:8px;border-radius:50%;background:#7CF5C8;box-shadow:0 0 0 4px rgba(124,245,200,.25)}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+  .hero-note{margin-top:16px;font-size:.85rem;color:rgba(255,255,255,.75)}
+  .meta-strip{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:30px;font-size:.92rem;color:rgba(255,255,255,.9)}
+  .meta-strip span{display:inline-flex;align-items:center;gap:8px}
+  .meta-strip span::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;opacity:.8}
+  .shot{border-radius:16px;overflow:hidden;box-shadow:0 30px 70px -24px rgba(20,8,60,.6);border:1px solid rgba(255,255,255,.25);background:#fff}
+  .shot img{width:100%}
+
+  /* Section helpers */
+  .sec-head{max-width:680px;margin:0 auto 52px}
+  .grid{display:grid;gap:24px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
+  .card .ico{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--soft2);color:var(--p700);margin-bottom:16px;font-size:1.35rem}
+  .card h3{font-size:1.15rem;font-weight:750;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.98rem;margin:0}
+
+  /* How it works */
+  .how{background:var(--soft)}
+  .steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
+  .step .n{counter-increment:step;width:38px;height:38px;border-radius:10px;background:var(--grad);color:#fff;font-weight:800;display:grid;place-items:center;margin-bottom:14px}
+  .step .n::before{content:counter(step)}
+  .step h3{font-size:1.05rem;font-weight:750;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:.94rem;margin:0}
+
+  /* Showcase */
+  .showcase{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+  .showcase + .showcase{margin-top:40px}
+  .showcase.rev .txt{order:2}
+  .frame{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .showcase .txt h3{font-size:1.45rem;font-weight:780;margin-bottom:10px}
+  .showcase .txt p{color:var(--muted);font-size:1.02rem}
+
+  /* Comparison */
+  .cmp{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+  table{border-collapse:collapse;width:100%;min-width:560px}
+  th,td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:.98rem}
+  thead th{background:var(--soft2);font-weight:750}
+  tbody td:not(:first-child){text-align:center}
+  th.estim,td.estim{background:rgba(126,79,245,.06)}
+  .yes{color:#16a34a;font-weight:800}
+  .no{color:#c2c0cf}
+
+  /* FAQ */
+  details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 22px;box-shadow:var(--shadow-sm)}
+  details + details{margin-top:14px}
+  summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--p500);font-size:1.4rem;font-weight:700;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);margin:0 0 18px}
+
+  /* CTA band */
+  .ctaband{background:var(--grad);color:#fff;border-radius:24px;padding:56px;text-align:center;position:relative;overflow:hidden}
+  .ctaband::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:rgba(255,255,255,.08);top:-160px;right:-100px}
+  .ctaband h2{color:#fff;position:relative}
+  .ctaband p{color:rgba(255,255,255,.9);max-width:48ch;margin:14px auto 0;position:relative}
+
+  /* Footer */
+  footer{background:#0f0d22;color:#c9c6df;padding:56px 0 40px;margin-top:90px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .brand{color:#fff}
+  .foot a{color:#c9c6df}
+  .foot a:hover{color:#fff}
+  .foot-links{display:flex;gap:30px;flex-wrap:wrap}
+  .foot small{display:block;margin-top:26px;color:#7c7997;font-size:.85rem}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:40px;padding:64px 0 72px}
+    .g3,.g2,.steps{grid-template-columns:1fr 1fr}
+    .showcase{grid-template-columns:1fr}
+    .showcase.rev .txt{order:0}
+    .nav-links{display:none}
+  }
+  @media(max-width:560px){
+    .g3,.g2,.steps{grid-template-columns:1fr}
+    .section{padding:60px 0}
+    .ctaband{padding:38px 22px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="assets/logo-icon-512.png" alt="EstimAI logo" />EstimAI</a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#why">Why EstimAI</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-dark" href="#cta">Coming soon</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>AI Story Point estimation, inside Jira</h1>
+        <p class="sub">Explainable estimates from the issue, design screenshots, Confluence specs and your team's delivery history — calibrated as you go.</p>
+        <div class="meta-strip">
+          <span>Vision</span><span>Confluence specs</span><span>Team calibration</span><span>Your own AI key</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#cta">Coming soon to Marketplace →</a>
+          <a class="btn btn-ghost" href="mailto:support@estimai.org?subject=Notify%20me%20when%20EstimAI%20launches">Get notified</a>
+        </div>
+        <p class="hero-note">Free &amp; unlimited · Bring your own OpenAI or Anthropic key · Jira Cloud</p>
+      </div>
+      <div class="shot">
+        <img src="assets/highlight-2-result-1840x900.png" alt="EstimAI AI estimate result inside Jira — story points with complexity, effort and uncertainty breakdown" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <div class="sec-head center">
+        <p class="eyebrow">Features</p>
+        <h2>Estimates with context — and a reason</h2>
+        <p class="lead" style="margin-top:14px">EstimAI doesn't just spit out a number. It reads everything that defines the work, explains its reasoning, and learns from how your team actually delivers.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card">
+          <div class="ico">🖼️</div>
+          <h3>Vision analysis</h3>
+          <p>Upload design screenshots or paste a Figma link — EstimAI reads UI complexity visually and factors it into the estimate.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📄</div>
+          <h3>Confluence context</h3>
+          <p>Linked specs and requirement pages are pulled in automatically, so the estimate reflects the real scope — not just the title.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📈</div>
+          <h3>Historical calibration</h3>
+          <p>Your team's completed tasks become reference anchors. Estimates are tuned to <em>your</em> velocity, not a generic scale.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🧠</div>
+          <h3>Explainable output</h3>
+          <p>Every estimate breaks down into <strong>complexity</strong>, <strong>effort</strong> and <strong>uncertainty</strong>, with the assumptions and risks spelled out.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🔑</div>
+          <h3>Bring your own key</h3>
+          <p>Use OpenAI GPT-4o mini or Anthropic Claude Haiku under your own API key. EstimAI runs no AI servers of its own.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🃏</div>
+          <h3>Planning Poker loop</h3>
+          <p>Record your team's actual estimates after each session. EstimAI tracks AI-vs-team accuracy and improves over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" id="how">
+    <div class="wrap">
+      <div class="sec-head center">
+        <p class="eyebrow">How it works</p>
+        <h2>From issue to calibrated estimate in four steps</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n"></div><h3>Load an Epic or issue</h3><p>EstimAI pulls the description, acceptance criteria and sub-tasks from Jira — Scrum, Kanban, team- or company-managed.</p></div>
+        <div class="step"><div class="n"></div><h3>Add context</h3><p>Drop in design screenshots, a Figma link, grooming notes or linked Confluence specs. All optional, all powerful.</p></div>
+        <div class="step"><div class="n"></div><h3>Get explainable estimates</h3><p>AI estimates each task across complexity, effort and uncertainty — anchored to your team's completed work.</p></div>
+        <div class="step"><div class="n"></div><h3>Run Planning Poker</h3><p>Record the team's actual points. EstimAI tracks accuracy and recalibrates for next sprint.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section class="section" id="showcase">
+    <div class="wrap">
+      <div class="showcase">
+        <div class="txt">
+          <p class="eyebrow">Per-task breakdown</p>
+          <h3>Estimate every sub-task, sum to an Epic total</h3>
+          <p>Load an Epic and EstimAI estimates each Story individually, then rolls them up — with a copyable report of assumptions and recommendations you can paste straight into refinement.</p>
+        </div>
+        <div class="frame"><img src="assets/media-1-epic-1840x900.png" alt="Epic total view with per-task story point breakdown" loading="lazy" /></div>
+      </div>
+      <div class="showcase rev">
+        <div class="frame"><img src="assets/media-2-calibration-1840x900.png" alt="Historical calibration — completed tasks used as estimation anchors" loading="lazy" /></div>
+        <div class="txt">
+          <p class="eyebrow">Calibration history</p>
+          <h3>Gets smarter with every sprint</h3>
+          <p>EstimAI compares its estimates against your team's real Planning Poker results and completed work, surfacing accuracy over time so estimates keep tightening to your reality.</p>
+        </div>
+      </div>
+      <div class="showcase">
+        <div class="txt">
+          <p class="eyebrow">Design-aware</p>
+          <h3>It sees what you're building</h3>
+          <p>Screenshots and Figma frames are analyzed for UI complexity, while linked Confluence pages add the written scope — so the estimate reflects the full picture, not a one-line summary.</p>
+        </div>
+        <div class="frame"><img src="assets/highlight-1-context-1840x900.png" alt="Adding design screenshots, Figma and Confluence context to an estimate" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY / COMPARISON -->
+  <section class="section how" id="why">
+    <div class="wrap">
+      <div class="sec-head center">
+        <p class="eyebrow">Why EstimAI</p>
+        <h2>Nobody else does all of it</h2>
+      </div>
+      <div class="cmp">
+        <table>
+          <thead>
+            <tr><th>Capability</th><th class="estim">EstimAI</th><th>Planning Poker apps</th><th>Jira native</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>AI estimation</td><td class="estim yes">✓</td><td class="no">—</td><td>Limited</td></tr>
+            <tr><td>Vision (design analysis)</td><td class="estim yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+            <tr><td>Historical calibration</td><td class="estim yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+            <tr><td>Grooming transcript</td><td class="estim yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+            <tr><td>Per-task breakdown</td><td class="estim yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+            <tr><td>Team feedback loop</td><td class="estim yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap" style="max-width:820px">
+      <div class="sec-head center">
+        <p class="eyebrow">FAQ</p>
+        <h2>Good questions</h2>
+      </div>
+      <details open>
+        <summary>How much does it cost?</summary>
+        <p>EstimAI is <strong>free and unlimited</strong> — every feature included. Because it's bring-your-own-key, you pay only your own OpenAI or Anthropic usage; EstimAI itself charges nothing. (Paid team plans may arrive in a future release.)</p>
+      </details>
+      <details>
+        <summary>Why bring-your-own-key (BYOK)?</summary>
+        <p>You stay in full control of your AI spend and data residency, and you can pick the provider you trust. Your key is stored encrypted per-installation in Atlassian Forge storage and never reaches the browser.</p>
+      </details>
+      <details>
+        <summary>What about data privacy?</summary>
+        <p>EstimAI runs on Atlassian Forge and operates <strong>no AI servers of its own</strong>. When you run an estimate, the content you choose is sent to your configured provider (OpenAI or Anthropic) under your key, and is not retained after the session. No training on your data. Full details in our <a href="privacy">Privacy Policy</a>.</p>
+      </details>
+      <details>
+        <summary>Which AI models are supported?</summary>
+        <p>OpenAI <strong>GPT-4o mini</strong> and Anthropic <strong>Claude Haiku</strong> — switch in Settings anytime.</p>
+      </details>
+      <details>
+        <summary>Which platforms does it work with?</summary>
+        <p>Jira Cloud only, across all project types — team-managed, company-managed, Scrum and Kanban.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="cta">
+    <div class="wrap">
+      <div class="ctaband">
+        <h2>Coming soon to the Atlassian Marketplace</h2>
+        <p>EstimAI is in final review. Leave your email and we'll tell you the moment it's live — one message, no spam.</p>
+        <div class="cta-row" style="justify-content:center;margin-top:26px">
+          <a class="btn btn-primary" href="mailto:support@estimai.org?subject=Notify%20me%20when%20EstimAI%20launches&body=Please%20let%20me%20know%20when%20EstimAI%20is%20live%20on%20the%20Atlassian%20Marketplace.">Get notified at launch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#top"><img src="assets/logo-icon-512.png" alt="EstimAI logo" style="width:30px;height:30px;border-radius:8px" />EstimAI</a>
+      <p style="max-width:34ch;margin:14px 0 0;color:#9b98b8">AI Story Point estimation for Jira Cloud — explainable, calibrated, bring-your-own-key.</p>
+    </div>
+    <div class="foot-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="privacy">Privacy</a>
+      <a href="support">Support</a>
+      <a href="mailto:support@estimai.org">support@estimai.org</a>
+    </div>
+  </div>
+  <div class="wrap"><small>© 2026 EstimAI · Built on Atlassian Forge · Not affiliated with Atlassian.</small></div>
+</footer>
+
+</body>
+</html>
