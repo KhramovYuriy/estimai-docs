@@ -168,7 +168,7 @@
       <a href="#why">Why EstimAI</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-dark" href="#cta">Get notified</a>
+    <a class="btn btn-dark" href="https://marketplace.atlassian.com/apps/2215915680/estimai-ai-story-point-estimator" target="_blank" rel="noopener">Get it now</a>
   </div>
 </header>
 
@@ -183,12 +183,10 @@
         <div class="meta-strip">
           <span>Vision</span><span>Confluence specs</span><span>Team calibration</span><span>Your own AI key</span>
         </div>
-        <form class="waitlist" action="https://docs.google.com/forms/d/e/1FAIpQLSeTG2kzkN6WkmhfJVlPkcb8nE1qTLwdHXAkKBD24-S9lMbYsg/formResponse" method="POST" target="_blank" onsubmit="return submitWaitlist(event)">
-          <input type="email" name="entry.1260778925" required autocomplete="email" placeholder="you@company.com" aria-label="Your email" />
-          <button type="submit" class="btn btn-primary">Notify me at launch</button>
-        </form>
-        <p class="wl-note">Coming soon to the Atlassian Marketplace. No spam — just one email when EstimAI launches. Free &amp; unlimited · BYOK · Jira Cloud.</p>
-        <p class="wl-done" hidden>🎉 You're on the list — we'll email you the moment EstimAI is live.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://marketplace.atlassian.com/apps/2215915680/estimai-ai-story-point-estimator" target="_blank" rel="noopener">Get it on the Atlassian Marketplace →</a>
+        </div>
+        <p class="hero-note">Free &amp; unlimited · Bring your own OpenAI or Anthropic key · Jira Cloud</p>
       </div>
       <div class="shot">
         <img src="assets/highlight-2-result-1840x900.png" alt="EstimAI AI estimate result inside Jira — story points with complexity, effort and uncertainty breakdown" loading="lazy" />
@@ -344,13 +342,11 @@
   <section class="section" id="cta">
     <div class="wrap">
       <div class="ctaband">
-        <h2>Coming soon to the Atlassian Marketplace</h2>
-        <p>EstimAI is in final review. Leave your email and we'll tell you the moment it's live — one message, no spam.</p>
-        <form class="waitlist" action="https://docs.google.com/forms/d/e/1FAIpQLSeTG2kzkN6WkmhfJVlPkcb8nE1qTLwdHXAkKBD24-S9lMbYsg/formResponse" method="POST" target="_blank" onsubmit="return submitWaitlist(event)" style="margin:26px auto 0">
-          <input type="email" name="entry.1260778925" required autocomplete="email" placeholder="you@company.com" aria-label="Your email" />
-          <button type="submit" class="btn btn-primary">Notify me at launch</button>
-        </form>
-        <p class="wl-done" hidden style="margin-top:16px">🎉 You're on the list — we'll email you the moment EstimAI is live.</p>
+        <h2>Now on the Atlassian Marketplace</h2>
+        <p>Add EstimAI to your Jira Cloud site in a couple of clicks — free and unlimited, bring your own AI key.</p>
+        <div class="cta-row" style="justify-content:center;margin-top:26px">
+          <a class="btn btn-primary" href="https://marketplace.atlassian.com/apps/2215915680/estimai-ai-story-point-estimator" target="_blank" rel="noopener">Get it on the Atlassian Marketplace →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -374,21 +370,6 @@
   </div>
   <div class="wrap"><small>© 2026 EstimAI · Built on Atlassian Forge · Not affiliated with Atlassian.</small></div>
 </footer>
-
-<script>
-  var WAITLIST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeTG2kzkN6WkmhfJVlPkcb8nE1qTLwdHXAkKBD24-S9lMbYsg/formResponse";
-  function submitWaitlist(e){
-    e.preventDefault();
-    var form = e.target;
-    if(!form.checkValidity()){ form.reportValidity(); return false; }
-    try{ fetch(WAITLIST_URL, {method:"POST", mode:"no-cors", body:new FormData(form)}); }catch(err){}
-    var box = form.parentElement;
-    form.style.display = "none";
-    var note = box.querySelector(".wl-note"); if(note){ note.style.display = "none"; }
-    var done = box.querySelector(".wl-done"); if(done){ done.hidden = false; }
-    return false;
-  }
-</script>
 
 </body>
 </html>
